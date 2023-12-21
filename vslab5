@@ -1,0 +1,34 @@
+import math
+
+# Denklem fonksiyonu
+def equation(x):
+    return x**2 - math.log(x + 1)
+
+# Denklemin türevi
+def derivative(x):
+    return 2 * x - 1 / (x + 1)
+
+# Newton-Raphson yöntemi
+def newton_raphson(initial_guess, tolerance=1e-8, max_iter=100):
+    x = initial_guess
+    iteration = 0
+
+    while abs(equation(x)) > tolerance and iteration < max_iter:
+        x = x - equation(x) / derivative(x)
+        iteration += 1
+
+    if abs(equation(x)) <= tolerance:
+        return x
+    else:
+        raise ValueError("Çözüm bulunamadı veya iterasyon limitine ulaşıldı.")
+
+# Başlangıç değerleri
+initial_guesses = [0.1, 0.9]
+
+# Her bir başlangıç değeri için çözümü bul
+for i, initial_guess in enumerate(initial_guesses):
+    try:
+        solution = newton_raphson(initial_guess)
+        print(f"Başlangıç değeri {i + 1}: x = {solution}")
+    except ValueError as e:
+        print(f"Hata: {e}")
